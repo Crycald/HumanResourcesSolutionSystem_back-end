@@ -8,6 +8,7 @@ import com.hrsolutionsystem.hrss.model.dao.RecruitersDao;
 import com.hrsolutionsystem.hrss.model.domain.dto.RecruitersDto;
 import com.hrsolutionsystem.hrss.model.domain.entity.Recruiters;
 import com.hrsolutionsystem.hrss.model.mapper.RecruitersMapper;
+import com.hrsolutionsystem.hrss.model.service.email.registration.EmailRegistrationService;
 import com.hrsolutionsystem.hrss.security.passwordHasher.PasswordHasher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,5 +89,9 @@ public class RecruitersService {
         } else {
             throw notAuthorizedException();
         }
+    }
+
+    public void sendInvite(String recipient) throws MalformedURLException {
+        EmailRegistrationService.createRegistrationEmail(recipient);
     }
 }

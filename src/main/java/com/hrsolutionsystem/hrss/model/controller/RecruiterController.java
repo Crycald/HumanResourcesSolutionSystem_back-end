@@ -5,21 +5,24 @@ import com.hrsolutionsystem.hrss.exception.security.passwordHasher.InvalidHashEx
 import com.hrsolutionsystem.hrss.model.domain.dto.RecruiterHolder;
 import com.hrsolutionsystem.hrss.model.domain.dto.RecruitersDto;
 import com.hrsolutionsystem.hrss.model.service.RecruitersService;
+import com.hrsolutionsystem.hrss.model.service.email.registration.EmailRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/recruiter")
 @CrossOrigin("*")
 public class RecruiterController {
-
     private RecruitersService service;
+    private EmailRegistrationService emailRegistrationService;
 
     @Autowired
-    public RecruiterController(RecruitersService service) {
+    public RecruiterController(RecruitersService service, EmailRegistrationService emailRegistrationService) {
         this.service = service;
+        this.emailRegistrationService = emailRegistrationService;
     }
 
     @PostMapping(value = "/create")
@@ -56,5 +59,16 @@ public class RecruiterController {
     public String homePage() {
         return "HOME PAGE";
     }
+
+    @GetMapping(value = "/send")
+    public void send(/*@RequestBody String recipient*/) throws MalformedURLException {
+        service.sendInvite("krzysiekdybikowski@gmail.com");
+    }
+
+    @GetMapping(value = "/register")
+    public String verify() {
+        return "here should be registration";
+    }
+
 
 }
