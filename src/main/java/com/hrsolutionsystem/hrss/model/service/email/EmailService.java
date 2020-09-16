@@ -3,7 +3,6 @@ package com.hrsolutionsystem.hrss.model.service.email;
 import com.hrsolutionsystem.hrss.model.domain.dto.EmailHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -13,11 +12,8 @@ import java.util.Properties;
 
 @Service
 public class EmailService {
-    @Value("${gmail.username}")
-    private String username="jdp200301";
-
-    @Value("${gmail.password}")
-    private String userPassword="kodilla12345";
+    private String username = System.getenv("EMAIL_USER");
+    private String userPassword = System.getenv("EMAIL_PASSWORD");
     private final String mailDomain = "@gmail.com";
 
     private Logger logger = LoggerFactory.getLogger(EmailService.class);

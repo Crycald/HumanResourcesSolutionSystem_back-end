@@ -61,8 +61,8 @@ public class RecruiterController {
     }
 
     @GetMapping(value = "/send")
-    public void send(/*@RequestBody String recipient*/) throws MalformedURLException {
-        service.sendInvite("krzysiekdybikowski@gmail.com");
+    public void send(@RequestBody String recipient) throws MalformedURLException {
+        service.sendInvite(recipient);
     }
 
     @GetMapping(value = "/register")
