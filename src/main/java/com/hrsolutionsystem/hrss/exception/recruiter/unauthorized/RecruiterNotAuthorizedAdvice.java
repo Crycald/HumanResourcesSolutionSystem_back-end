@@ -1,4 +1,4 @@
-package com.hrsolutionsystem.hrss.exception.recruiter;
+package com.hrsolutionsystem.hrss.exception.recruiter.unauthorized;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class RecruitersNotFoundAdvice {
+public class RecruiterNotAuthorizedAdvice {
 
     @ResponseBody
-    @ExceptionHandler(RecruitersNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String recruitersNotFoundHandler(RecruitersNotFoundException exception){
-        return exception.getMessage();
+    @ExceptionHandler(RecruiterNotAuthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String recruiterNotAuthorizedHandler(RecruiterNotAuthorizedException ex) {
+        return ex.getMessage();
     }
 }

@@ -2,7 +2,7 @@ package com.hrsolutionsystem.hrss.model.service;
 
 import com.hrsolutionsystem.hrss.exception.cvDetails.CvDetailsNotFoundException;
 import com.hrsolutionsystem.hrss.exception.interview.InterviewNotFoundException;
-import com.hrsolutionsystem.hrss.exception.recruiter.RecruitersNotFoundException;
+import com.hrsolutionsystem.hrss.exception.recruiter.notFound.RecruitersNotFoundException;
 import com.hrsolutionsystem.hrss.model.dao.CvDetailsDao;
 import com.hrsolutionsystem.hrss.model.dao.InterviewDao;
 import com.hrsolutionsystem.hrss.model.dao.RecruitersDao;

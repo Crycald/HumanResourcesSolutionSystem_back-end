@@ -1,6 +1,5 @@
 package com.hrsolutionsystem.hrss.model.dao;
 
-import com.hrsolutionsystem.hrss.model.domain.dto.RecruitersDto;
 import com.hrsolutionsystem.hrss.model.domain.entity.Recruiters;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -24,4 +23,6 @@ public interface RecruitersDao extends CrudRepository<Recruiters, Long> {
 
     @Override
     long count();
+
+    Optional<Recruiters> findByLogin(String login);
 }

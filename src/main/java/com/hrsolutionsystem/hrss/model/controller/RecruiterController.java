@@ -1,8 +1,11 @@
 package com.hrsolutionsystem.hrss.model.controller;
 
 import com.hrsolutionsystem.hrss.exception.security.passwordHasher.CannotPerformOperationException;
+import com.hrsolutionsystem.hrss.exception.security.passwordHasher.InvalidHashException;
+import com.hrsolutionsystem.hrss.model.domain.dto.RecruiterHolder;
 import com.hrsolutionsystem.hrss.model.domain.dto.RecruitersDto;
 import com.hrsolutionsystem.hrss.model.service.RecruitersService;
+import com.hrsolutionsystem.hrss.model.service.email.registration.EmailRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +15,13 @@ import java.util.List;
 @RequestMapping("/v1/recruiter")
 @CrossOrigin("*")
 public class RecruiterController {
-
     private RecruitersService service;
+    private EmailRegistrationService emailRegistrationService;
 
     @Autowired
-    public RecruiterController(RecruitersService service) {
+    public RecruiterController(RecruitersService service, EmailRegistrationService emailRegistrationService) {
         this.service = service;
+        this.emailRegistrationService = emailRegistrationService;
     }
 
     @PostMapping(value = "/create")
@@ -45,4 +49,13 @@ public class RecruiterController {
         service.deleteByID(id);
     }
 
+    @GetMapping(value = "/verifyUser")
+    public RecruitersDto verifyUser(@RequestBody RecruiterHolder recruiterHolder) throws CannotPerformOperationException, InvalidHashException {
+        return service.findByLoginAndPassword(recruiterHolder.getLogin(), recruiterHolder.getPassword());
+    }
+
+    @GetMapping(value = "/homePage")
+    public String homePage() {
+        return "HOME PAGE";
+    }
 }
