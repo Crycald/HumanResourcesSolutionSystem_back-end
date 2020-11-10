@@ -25,12 +25,14 @@ import java.util.Optional;
 public class RecruitersService {
     private RecruitersDao repository;
     private RecruitersMapper mapper;
+    private EmailRegistrationService emailRegistrationService;
     private Logger logger = LoggerFactory.getLogger(RecruitersService.class);
 
     @Autowired
-    public RecruitersService(RecruitersDao repository, RecruitersMapper mapper) {
+    public RecruitersService(RecruitersDao repository, RecruitersMapper mapper, EmailRegistrationService emailRegistrationService) {
         this.repository = repository;
         this.mapper = mapper;
+        this.emailRegistrationService = emailRegistrationService;
     }
 
     private RecruitersNotFoundException notFoundException(Long id){
@@ -92,6 +94,6 @@ public class RecruitersService {
     }
 
     public void sendInvite(String recipient) throws MalformedURLException {
-        EmailRegistrationService.createRegistrationEmail(recipient);
+        emailRegistrationService.createRegistrationEmail(recipient);
     }
 }

@@ -42,23 +42,33 @@ public class RecruiterAuthProvider implements AuthenticationProvider {
         return authorityList;
     }
 
+    private List<SimpleGrantedAuthority> getAdminAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(PREFIX + "ADMIN");
+        List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+        authorityList.add(authority);
+
+        return authorityList;
+    }
+
     @SneakyThrows
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String givenLogin = authentication.getName();
         String givenPassword = authentication.getCredentials().toString();
+        boolean isValid = PasswordHasher.verifyPassword(givenPassword, repository.findByLogin(givenLogin).get().getPassword());
 
-        if (repository.findByLogin(givenLogin).isPresent()) {
-            boolean isValid = PasswordHasher.verifyPassword(givenPassword, repository.findByLogin(givenLogin).get().getPassword());
+        if (givenLogin.equals("admin") && isValid) {
+            return new UsernamePasswordAuthenticationToken(givenLogin, givenLogin, getAdminAuthorities());
+        } else if (repository.findByLogin(givenLogin).isPresent()) {
             if (isValid) {
                 return new UsernamePasswordAuthenticationToken(givenLogin, givenPassword, getAuthorities());
             } else {
                 throw badCredentialsException();
+                }
+            } else {
+                throw badCredentialsException();
             }
-        } else {
-            throw badCredentialsException();
         }
-    }
 
     @Override
     public boolean supports(Class<?> authentication) {

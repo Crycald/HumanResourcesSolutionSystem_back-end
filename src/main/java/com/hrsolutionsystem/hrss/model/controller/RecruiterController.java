@@ -9,7 +9,6 @@ import com.hrsolutionsystem.hrss.model.service.email.registration.EmailRegistrat
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.MalformedURLException;
 import java.util.List;
 
 @RestController
@@ -59,16 +58,4 @@ public class RecruiterController {
     public String homePage() {
         return "HOME PAGE";
     }
-
-    @GetMapping(value = "/send")
-    public void send(@RequestBody String recipient) throws MalformedURLException {
-        service.sendInvite(recipient);
-    }
-
-    @GetMapping(value = "/register")
-    public String verify() {
-        return "here should be registration";
-    }
-
-
 }
