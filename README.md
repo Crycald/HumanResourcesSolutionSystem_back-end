@@ -11,6 +11,7 @@
 - JPA
 - PostgreSQL
 - Lombok
+- Mapstruct
 - PBKDF2 (password hashing)
 - JWT
 
