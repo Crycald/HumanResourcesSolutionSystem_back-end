@@ -22,9 +22,13 @@ Setup
        git clone https://github.com/Crycald/HumanResourcesSolutionSystem_back-end.git
 
 - Download Gmail credentials from [here](https://drive.google.com/file/d/1_PJJMYIftk7xB50_izhSGq81SFqbV2XN/view?usp=sharing).
-- Install the latest version of [Java 8](https://java.com) and [Maven](https://maven.apache.org/download.cgi)
-- Set the environment variables: `EMAIL_USER` `EMAIL_PASSWORD`.
+- Download Database credentials from [here](https://drive.google.com/file/d/19A7zVSPSsssPkcUrjSvIQ-eOMCY1h_kC/view?usp=sharing).
+- Install the latest version of [Java 8](https://java.com), [Maven](https://maven.apache.org/download.cgi) and [PostgreSQL](https://www.postgresql.org).
+- Set the environment variables for sending emails: `EMAIL_USER` `EMAIL_PASSWORD`.
+- Create Database with name `hrss`.
+- Set the environment variables for Database: `POSTGRESQL_USER` `POSTGRESQL_PWD`.
 - You may need to set your `JAVA_HOME`.
+
 ```bash
 cd HumanResourcesSolutionSystem_back-end
 # Compile and run
