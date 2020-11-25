@@ -2,6 +2,7 @@ package com.hrsolutionsystem.hrss.security.provider;
 
 import com.hrsolutionsystem.hrss.exception.recruiter.unauthorized.RecruiterNotAuthorizedException;
 import com.hrsolutionsystem.hrss.model.dao.RecruitersDao;
+import com.hrsolutionsystem.hrss.security.interceptor.BadCredentialsInterceptor;
 import com.hrsolutionsystem.hrss.security.passwordHasher.PasswordHasher;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RecruiterAuthProvider implements AuthenticationProvider {
+public class UserAuthProvider extends BadCredentialsInterceptor implements AuthenticationProvider {
     private RecruitersDao repository;
     private final static String PREFIX = "ROLE_";
 
     @Autowired
-    public RecruiterAuthProvider(RecruitersDao repository) {
+    public UserAuthProvider(RecruitersDao repository) {
         this.repository = repository;
     }
 
@@ -63,9 +64,11 @@ public class RecruiterAuthProvider implements AuthenticationProvider {
             if (isValid) {
                 return new UsernamePasswordAuthenticationToken(givenLogin, givenPassword, getAuthorities());
             } else {
+                super.interceptInvalidCredentials(givenLogin);
                 throw badCredentialsException();
                 }
             } else {
+                super.interceptInvalidCredentials(givenLogin);
                 throw badCredentialsException();
             }
         }
