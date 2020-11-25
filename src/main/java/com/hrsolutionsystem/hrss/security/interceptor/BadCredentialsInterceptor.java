@@ -1,4 +1,4 @@
-package com.hrsolutionsystem.hrss.security.invalidcredentials;
+package com.hrsolutionsystem.hrss.security.interceptor;
 
 import com.hrsolutionsystem.hrss.model.domain.dto.FreeGeoIPHolder;
 import com.hrsolutionsystem.hrss.model.domain.entity.InvalidCredentialsEntity;

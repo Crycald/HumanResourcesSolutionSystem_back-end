@@ -1,6 +1,6 @@
 package com.hrsolutionsystem.hrss.security.config;
 
-import com.hrsolutionsystem.hrss.security.provider.RecruiterAuthProvider;
+import com.hrsolutionsystem.hrss.security.provider.UserAuthProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,11 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    private final RecruiterAuthProvider provider;
+    private final UserAuthProvider provider;
     private final static String REGISTRATION_ENDPOINT = "/v1/register/";
 
     @Autowired
-    public SecurityConfiguration(RecruiterAuthProvider provider) {
+    public SecurityConfiguration(UserAuthProvider provider) {
         this.provider = provider;
     }
 
