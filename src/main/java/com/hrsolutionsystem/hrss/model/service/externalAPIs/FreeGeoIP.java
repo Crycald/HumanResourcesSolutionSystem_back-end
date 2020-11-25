@@ -1,10 +1,13 @@
 package com.hrsolutionsystem.hrss.model.service.externalAPIs;
 
 import com.hrsolutionsystem.hrss.model.domain.dto.FreeGeoIPHolder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
 public class FreeGeoIP {
-    private final static String API_URL = "https://freegeoip.app/json/";
+    @Value("${free.geo.ip.endpoint}")
+    private String API_URL;
+
     private RestTemplate restTemplate = new RestTemplate();
     private FreeGeoIPHolder holder = new FreeGeoIPHolder();
 
