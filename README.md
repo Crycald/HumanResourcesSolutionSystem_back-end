@@ -15,6 +15,9 @@
 - PBKDF2 (password hashing)
 - JWT
 
+#### External APIs
+- [Free Geolocation IP](https://freegeoip.app)
+
 Setup
 -----
 - Clone repository.
