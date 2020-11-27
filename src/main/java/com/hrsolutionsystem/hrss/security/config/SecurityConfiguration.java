@@ -11,8 +11,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    private final static String DEFAULT_URL = "/v1";
+    private final static String ADMIN_API = "/v1/admin";
+    private final static String COMPANY_API = "/v1/company";
+    private final static String RECRUITER_API = "/v1/recruiter";
+    private final static String COVER_LETTER_API = "/v1/coverLetter";
+    private final static String CV_DETAILS_API = "/v1/cvDetails";
+    private final static String CV_FILE_API = "/v1/cvFile";
+    private final static String INTERVIEW_API = "/v1/interviews";
+    private final static String REGISTRATION_API = "/v1/register";
+    private final static String WANTED_EMPLOYEE_API = "/v1/wantedEmployee";
+
     private final UserAuthProvider provider;
-    private final static String REGISTRATION_ENDPOINT = "/v1/register/";
 
     @Autowired
     public SecurityConfiguration(UserAuthProvider provider) {
@@ -22,19 +32,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .formLogin().permitAll().defaultSuccessUrl( "/v1/admin/adminPage", true)
+                .authorizeRequests().antMatchers(
+                        DEFAULT_URL + "/**",
+                        CV_DETAILS_API + "/create",
+                        COVER_LETTER_API + "/**",
+                        CV_FILE_API + "/**",
+                        COMPANY_API + "/create",
+                        INTERVIEW_API + "/create",
+                        RECRUITER_API + "/update",
+                        WANTED_EMPLOYEE_API + "/list"
+                ).hasRole("USER")
                 .and()
-                .logout().logoutSuccessUrl("/login").permitAll().deleteCookies("JSESSIONID").invalidateHttpSession(true)
+                .authorizeRequests()
+                .anyRequest().hasRole("ADMIN")
                 .and()
-                .authorizeRequests().antMatchers(REGISTRATION_ENDPOINT + "*").permitAll()
+                .formLogin()
+                .defaultSuccessUrl(DEFAULT_URL + "/default", true)
                 .and()
-                .authorizeRequests().antMatchers("**").hasRole("ADMIN")
-                .and().csrf().disable();
+                .csrf().disable();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(provider);
     }
-
 }
