@@ -53,9 +53,4 @@ public class RecruiterController {
     public RecruitersDto verifyUser(@RequestBody RecruiterHolder recruiterHolder) throws CannotPerformOperationException, InvalidHashException {
         return service.findByLoginAndPassword(recruiterHolder.getLogin(), recruiterHolder.getPassword());
     }
-
-    @GetMapping(value = "/homePage")
-    public String homePage() {
-        return "HOME PAGE";
-    }
 }

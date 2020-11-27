@@ -24,7 +24,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserAuthProvider provider;
 
-
     @Autowired
     public SecurityConfiguration(UserAuthProvider provider) {
         this.provider = provider;
@@ -33,7 +32,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests().antMatchers("/dupa").hasRole("USER")
+                .authorizeRequests().antMatchers(
+                        DEFAULT_URL + "/**",
+                        CV_DETAILS_API + "/create",
+                        COVER_LETTER_API + "/**",
+                        CV_FILE_API + "/**",
+                        COMPANY_API + "/create",
+                        INTERVIEW_API + "/create",
+                        RECRUITER_API + "/update",
+                        WANTED_EMPLOYEE_API + "/list"
+                ).hasRole("USER")
                 .and()
                 .authorizeRequests()
                 .anyRequest().hasRole("ADMIN")
