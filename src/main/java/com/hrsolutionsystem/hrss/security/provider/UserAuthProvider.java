@@ -19,8 +19,8 @@ import java.util.List;
 
 @Component
 public class UserAuthProvider extends BadCredentialsInterceptor implements AuthenticationProvider {
-    private RecruitersDao repository;
     private final static String PREFIX = "ROLE_";
+    private RecruitersDao repository;
 
     @Autowired
     public UserAuthProvider(RecruitersDao repository) {
@@ -35,16 +35,16 @@ public class UserAuthProvider extends BadCredentialsInterceptor implements Authe
         return new BadCredentialsException(notAuthorizedException().getMessage());
     }
 
-    private List<SimpleGrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(PREFIX + "USER");
+    private List<SimpleGrantedAuthority> getAdminAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(PREFIX + "ADMIN");
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(authority);
 
         return authorityList;
     }
 
-    private List<SimpleGrantedAuthority> getAdminAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(PREFIX + "ADMIN");
+    public static List<SimpleGrantedAuthority> getUserAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(PREFIX + "USER");
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(authority);
 
@@ -59,19 +59,16 @@ public class UserAuthProvider extends BadCredentialsInterceptor implements Authe
         boolean isValid = PasswordHasher.verifyPassword(givenPassword, repository.findByLogin(givenLogin).get().getPassword());
 
         if (givenLogin.equals("admin") && isValid) {
+            System.out.println("ADMIN");
             return new UsernamePasswordAuthenticationToken(givenLogin, givenLogin, getAdminAuthorities());
-        } else if (repository.findByLogin(givenLogin).isPresent()) {
-            if (isValid) {
-                return new UsernamePasswordAuthenticationToken(givenLogin, givenPassword, getAuthorities());
-            } else {
-                super.interceptInvalidCredentials(givenLogin);
-                throw badCredentialsException();
-                }
-            } else {
-                super.interceptInvalidCredentials(givenLogin);
-                throw badCredentialsException();
-            }
+        } else if (repository.findByLogin(givenLogin).isPresent() && isValid) {
+            System.out.println("USER");
+            return new UsernamePasswordAuthenticationToken(givenLogin, givenLogin, getUserAuthorities());
+        } else {
+            super.interceptInvalidCredentials(givenLogin);
+            throw badCredentialsException();
         }
+    }
 
     @Override
     public boolean supports(Class<?> authentication) {
